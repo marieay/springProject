@@ -6,25 +6,15 @@
 setwd("~/Desktop/Replication")
 
 ESS.data <- read.csv("ESS1-9e01_1.csv", header = T, na = "NA")
-ESS.data$agea
 
 #Subsetting the data
 
-##ESS
-ESS.subset <- subset(ESS.data, select = c(cntry, stfdem, gndr,agea, pdjobyr, hinctnta, clsprty, polintr, trstprl, eisced))
-
-#### Winner and Education is missing
+ESS.subset <- subset(ESS.data, select = c(cntry, stfdem, gndr,agea, pdjobyr, hinctnta, clsprty, polintr, eisced))
 
 #Recoding the variables 
 
-##ESS 
-
-#Using the car library
-
 install.packages("car")
 library(car)
-
-#Recoding
 
 ESS.subset$gndr.rc <- as.numeric(ESS.subset$gndr=="2")
 
@@ -42,9 +32,19 @@ ESS.subset$eisced.rc <- recode(ESS.subset$eisced,'c(2,3,4)=2;c(5,6)=3;7=4;c(55,0
 
 #Treating refused answers, "Dont know" answers etc. as missing values - or should we use methods like multiple imputation?
 
-ESS.subset <- subset(ESS.subset, select = - c(pdjobyr, hinctnta, polintr, eisced))
+ESS.subset <- subset(ESS.subset, select = - c(trstprl))
 
 #### What is missing: Trust in Institutions Mean, Winner Loser Dummy Variable
+
+
+##SGI-Data
+#Sorting of the data has been done on Excel and then converted to csv. 
+
+ESS.data <-read.table("SGI2014.txt", header = T, na = "NA")
+
+#### Merging of the SGI and the ESS data frame does not seem necessary at this point. 
+
+
 
 
 #####################
@@ -59,4 +59,3 @@ Golder.data <- read.csv("es_data-v2_0_1.csv", header = T, na = "NA")
 
 DPI.data <- read.csv("Database_of_political_institutions_2015.csv", header = T, na = "NA")
 DPI.data$pr
-
