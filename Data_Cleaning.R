@@ -9,7 +9,7 @@ ESS.data <- read.csv("ESS1-9e01_1.csv", header = T, na = "NA")
 
 #Subsetting the data
 
-ESS.subset <- subset(ESS.data, select = c(cntry, stfdem, gndr,agea, pdjobyr, hinctnta, clsprty, polintr, trstprl, eisced))
+ESS.subset <- subset(ESS.data, select = c(cntry, stfdem, gndr,agea, pdjobyr, hinctnta, clsprty, polintr, eisced))
 
 #Recoding the variables 
 
@@ -35,6 +35,13 @@ ESS.subset$eisced.rc <- recode(ESS.subset$eisced,'c(2,3,4)=2;c(5,6)=3;7=4;c(55,0
 ESS.subset <- subset(ESS.subset, select = - c(pdjobyr, hinctnta, polintr, eisced))
 
 #### What is missing: Trust in Institutions Mean, Winner Loser Dummy Variable
+
+##SGI-Data
+#Sorting of the data has been done on Excel and then converted to csv. 
+
+ESS.data <-read.table("SGI2014.txt", header = T, na = "NA")
+
+#### Merging of the SGI and the ESS data frame does not seem necessary at this point. 
 
 #####################
 
