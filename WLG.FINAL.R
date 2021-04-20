@@ -141,7 +141,7 @@ hist(ESS.subsetWLG$prtvtdhuR)
 
 #Mean by country 
 
-#Aggregate the mean of every column
+#Aggregate the mean of every column to check
 
 ESS.subsetWLG <- subset(ESS.subsetWLG, select = - c(prtvtcbe,prtvtacy,prtvtcbg,prtvtccz,prtvtcdk,prtvtdee,prtvtcfi,prtvtcfr,prtvdde2,prtvtdhu,prtvtais,prtvtaie,prtvtbil,prtvtbit,prtvalt3,prtvtenl,prtvtano,prtvtcpl,prtvtbpt,prtvtcsk,prtvtdsi,prtvtces,prtvtbse,prtvtdch,prtvtgb))
 
