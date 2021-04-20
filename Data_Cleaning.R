@@ -181,10 +181,15 @@ class(cntrystfm)
 cntrystfm <- cntrystfm[-c(23),]
 
 mod.swd.party <- lm (cntrystfm$x~Enep_PR_Data$Enep+Enep_PR_Data$PR)
-mod.swd
+summary(mod.swd)
 
-mod.swd.econ <- lm (cntrystfm$x~Worldbank_Econ$Inflation+Worldbank_Econ$GDP+Worldbank_Econ$GDPpc)
-mod.swd.econ
-#Interpretation+Incorporation in the variable estimation
+mod.swd.econ <- lm (cntrystfm$x~Worldbank_Econ$Inflation+Worldbank_Econ$GDPg+Worldbank_Econ$GDPpc)
+summary(mod.swd.econ)
 
+#Why have the researches used those indicators even though the p-value yre very high and also the estimates in the model 2 seem off. 
+
+#Residual Versus Fits Plot for mod.swd.econ --> Linearity can be assumed. Should we run other diagnostics?
+
+plot(y=mod.swd.econ$residuals, x=mod.swd.econ$fitted.values, xlab ="Fitted Values", ylab = "Residuals")
+names(mod.swd.econ)
 
