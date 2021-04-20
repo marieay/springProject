@@ -12,7 +12,8 @@ votehist <- hist(ESS6e02_4$vote) #check to see if people voted seeing that when 
 install.packages('car')
 library(car)
 
-ESS.subsetWLG <- subset(ESS.data, select = c(prtvtcbe, prtvtacy, prtvtcbg, prtvtccz,prtvtcdk, prtvtdee, prtvtcfi, prtvtcfr, prtvdde2, prtvtdhu, prtvtais,prtvtaie, prtvtbil,prtvtbit,prtvalt3,prtvtenl,prtvtano,prtvtcpl,prtvtbpt,prtvtcsk,prtvtdsi,prtvtces,prtvtbse,prtvtdch,prtvtgb))
+#Keeping cntry to have an index for merging this dataset with the ESS.subset (containing the rest of the variables) in Model 1
+ESS.subsetWLG <- subset(ESS.data, select = c(cntry, prtvtcbe, prtvtacy, prtvtcbg, prtvtccz,prtvtcdk, prtvtdee, prtvtcfi, prtvtcfr, prtvdde2, prtvtdhu, prtvtais,prtvtaie, prtvtbil,prtvtbit,prtvalt3,prtvtenl,prtvtano,prtvtcpl,prtvtbpt,prtvtcsk,prtvtdsi,prtvtces,prtvtbse,prtvtdch,prtvtgb))
 
 HEAD
 
