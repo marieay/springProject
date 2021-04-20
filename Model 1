@@ -1,0 +1,36 @@
+#Model 1
+
+#Goal: visualize the WLG by mean level of satisfaction in a country
+
+#Calculate the winner lose gap for satisfactuib
+
+#Mean satisfaction per country
+cntrystfm <- aggregate(x = ESS.subset$stfdem.rc, by = list(ESS.subset$cntry), FUN = mean, na.rm = T)
+
+#Idea 1: Mean of WLG in SWD is defined as the difference between the mean of satisfation WD for winners and the mean of satisaction WD for losers 
+
+#Merge ESS subset and the WLG recoded subset
+
+#Create Index
+ESS.subsetWLG$ID <- seq.int(nrow(ESS.subsetWLG))
+ESS.subset$ID <- seq.int(nrow(ESS.subset))
+
+#Merge the dataset and clean
+ESS.ready <- merge(x=ESS.subset, y=ESS.subsetWLG, by=c("ID"))
+ESS.ready <- subset(ESS.ready, select = - c(cntry.y))
+
+#Mean of SWD per country per W/L
+cntrystfm <- aggregate(x = mean(stfdem), by = list(ESS.ready$cntry.x, ESS.ready$), FUN = mean, na.rm = T)
+
+#Took me almost two hours to come up with this so please appreciate. 
+# However, CZ is missing (recoding for WLG did not work). I suggest we leave it out and ask the prof what happened with this puppy.
+
+library(tidyr)
+library(dplyr)
+
+new <- ESS.ready %>% 
+  pivot_longer(cols = starts_with('prtv'), values_to = 'winner_loser') %>%
+  group_by(cntry.x, winner_loser) %>%
+  summarise(mean_satisfaction = mean(stfdem.rc,na.rm = T))
+new <- na.omit(new)
+
