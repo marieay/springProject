@@ -12,8 +12,7 @@ votehist <- hist(ESS6e02_4$vote) #check to see if people voted seeing that when 
 install.packages('car')
 library(car)
 
-#Keeping cntry to have an index for merging this dataset with the ESS.subset (containing the rest of the variables) in Model 1
-ESS.subsetWLG <- subset(ESS.data, select = c(cntry, prtvtcbe, prtvtacy, prtvtcbg, prtvtccz,prtvtcdk, prtvtdee, prtvtcfi, prtvtcfr, prtvdde2, prtvtdhu, prtvtais,prtvtaie, prtvtbil,prtvtbit,prtvalt3,prtvtenl,prtvtano,prtvtcpl,prtvtbpt,prtvtcsk,prtvtdsi,prtvtces,prtvtbse,prtvtdch,prtvtgb))
+ESS.subsetWLG <- subset(ESS.data, select = c(cntry,prtvtcbe, prtvtacy, prtvtcbg,prtvtccz,prtvtcdk, prtvtdee, prtvtcfi, prtvtcfr, prtvdde2, prtvtdhu, prtvtais,prtvtaie, prtvtbil,prtvtbit,prtvalt3,prtvtenl,prtvtano,prtvtcpl,prtvtbpt,prtvtcsk,prtvtdsi,prtvtces,prtvtbse,prtvtdch,prtvtgb))
 
 HEAD
 
@@ -23,7 +22,7 @@ ESS.subsetWLG$prtvtcbeR <- recode(ESS.subsetWLG$prtvtcbe,'2=1;8=1;12=1;13=1;
 hist(ESS.subsetWLG$prtvtcbeR)
 
 #CZECHIA problem
-ESS.subsetWLG$prtvtcczR <- recode(ESS6e02_4$prtvtccz,'3=1;4=1;5=1;1=0;2=0;8=0;66=NA;77=NA;88=NA;99=NA')
+ESS.subsetWLG$prtvtcczR <- recode(ESS.subset$prtvtccz,'1=0;2=0;3=1;4=1;5=1;8=0;66=NA;77=NA;88=NA;99=NA'))
 hist(ESS.subsetWLG$prtvtccz)
 
 #denmark
@@ -140,10 +139,8 @@ hist(ESS.subsetWLG$prtvtcskR)
 ESS.subsetWLG$prtvtdhuR <- recode(ESS.subsetWLG$prtvtdhu, '1=0;2=0;3=1;4=0;5=0;6=0;7=0;8=0;9=0;10=0;11=0;12=0;13=0;55=0;66=NA;77=NA;88=NA;99=NA')
 hist(ESS.subsetWLG$prtvtdhuR)
 
-#Mean by country 
-
-#Aggregate the mean of every column to check
-
+#Clean 
 ESS.subsetWLG <- subset(ESS.subsetWLG, select = - c(prtvtcbe,prtvtacy,prtvtcbg,prtvtccz,prtvtcdk,prtvtdee,prtvtcfi,prtvtcfr,prtvdde2,prtvtdhu,prtvtais,prtvtaie,prtvtbil,prtvtbit,prtvalt3,prtvtenl,prtvtano,prtvtcpl,prtvtbpt,prtvtcsk,prtvtdsi,prtvtces,prtvtbse,prtvtdch,prtvtgb))
 
+#Aggregating the mean by every column to check
 colMeans(ESS.subsetWLG, na.rm = T)
