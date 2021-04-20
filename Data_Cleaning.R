@@ -39,7 +39,7 @@ ESS.subset <- subset(ESS.subset, select = - c(stfdem, gndr, agea, pdjobyr, hinct
 
 #### What is missing: Trust in Institutions Mean, Winner Loser Dummy Variable
 
-# Trust in institution Mean:
+# Trust in institution Mean (Needs to be shortened with aggregate())
 trstinst_BE <- ESS.data[c(1202:3070),c(6,13:19)]
 summary(trstinst_BE)
 assign("mean_trstinst_BE", 5.028)
