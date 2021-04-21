@@ -22,8 +22,7 @@ ESS.ready <- subset(ESS.ready, select = - c(cntry.y))
 #Mean of SWD per country per W/L
 cntrystfm <- aggregate(x = mean(stfdem), by = list(ESS.ready$cntry.x, ESS.ready$), FUN = mean, na.rm = T)
 
-#Took me almost two hours to come up with this so please appreciate. 
-# However, CZ is missing (recoding for WLG did not work). I suggest we leave it out and ask the prof what happened with this puppy.
+#Took me almost two hours to come up with this so please appreciate. However, CZ is missing (recoding for WLG did not work). I suggest we leave it out and ask the prof what happened with this puppy.
 
 library(tidyr)
 library(dplyr)
@@ -33,4 +32,18 @@ new <- ESS.ready %>%
   group_by(cntry.x, winner_loser) %>%
   summarise(mean_satisfaction = mean(stfdem.rc,na.rm = T))
 new <- na.omit(new)
+
+#Dataframe with the pure WLG
+winner <- new %>% filter(winner_loser==1)
+loser <- new %>% filter(winner_loser==0) 
+
+WLG.list <- winner$mean_satisfaction-loser$mean_satisfaction
+WLG.df.pre <- data.frame(matrix(unlist(WLG.list), nrow=length(WLG.list), byrow=TRUE))
+colnames(WLG.df.pre) <- "WLG"
+
+WLF.df <- cbind(WLG.df.pre$WLG,winner$cntry.x)
+WLF.df <- as.data.frame(WLF.df)
+WLF.df %>% rename(WLG = V1,cntry = V2)
+  
+#Visualization
 
