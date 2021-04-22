@@ -47,3 +47,32 @@ WLF.df %>% rename(WLG = V1,cntry = V2)
   
 #Visualization
 
+library(ggplot2)
+library(dplyr)
+library(forcats)
+
+data <- data.frame(wlg = rnorm(100, 3, 1))
+data$country <- sample(rep(c("Italy", "Swiss", "Germany", "France", "Austria"),20))
+
+data %>%
+  mutate(country = fct_reorder(country, wlg, .fun='mean' )) %>%
+  ggplot( aes(x=reorder(country, wlg), y=wlg, fill="grey")) + 
+  geom_boxplot(width=0, outlier.shape = NA) +
+  stat_summary(fun=mean, geom="point", shape=20, size=3, color="darkolivegreen3", fill="darkolivegreen3") +
+  xlab(NULL) +
+  ylab(NULL) +
+  theme(legend.position="none") +
+  ylim(2,8) +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.background = element_rect(fill = 'white', colour = 'white'),
+        panel.background = element_rect(fill = 'white', colour = 'white'),
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "darkgrey"),
+        axis.ticks = element_line(colour = "darkgrey")
+        )+
+  geom_hline(yintercept=c(4,7), alpha=0.6, col="black")+
+  geom_hline(yintercept=c(6), alpha=0.6, col="darkgrey")+
+  geom_hline(yintercept=c(3,5,8), alpha=0.3, col="darkgrey")
+
