@@ -44,6 +44,7 @@ ESS.subset <- subset(ESS.subset, select = - c(stfdem, gndr, agea, pdjobyr, hinct
 #### What is missing: Trust in Institutions Mean, Winner Loser Dummy Variable
 
 # Trust in institution Mean 
+ESS.data = filter(ESS.data, cntry != "RU")
 ESS.subset.1 <- subset(ESS.data, select = c(trstprl, trstlgl , trstplc, trstplt, trstprt, trstep, trstun)
                        options(max.print=9999999)
 trstinst_means <- print(rowMeans(ESS.subset.1, na.rm = TRUE)) 
