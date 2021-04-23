@@ -50,8 +50,6 @@ ESS.subset.1 <- subset(ESS.data, select = c(trstprl, trstlgl , trstplc, trstplt,
 trstinst_means <- print(rowMeans(ESS.subset.1, na.rm = TRUE)) 
 view(trstinst_means)
 # I dont know how to view them all though                      
-                       
-# I dont know how to view them all though
 
 #SGI-Data
 #Sorting of the data has been done on Excel and then converted to csv. 
