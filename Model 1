@@ -6,6 +6,7 @@
 
 #Mean satisfaction per country
 cntrystfm <- aggregate(x = ESS.subset$stfdem.rc, by = list(ESS.subset$cntry), FUN = mean, na.rm = T)
+cntrystfm$ID <- seq.int(nrow(cntrystfm))
 
 #Idea 1: Mean of WLG in SWD is defined as the difference between the mean of satisfation WD for winners and the mean of satisaction WD for losers 
 
@@ -20,8 +21,7 @@ ESS.ready <- merge(x=ESS.subset, y=ESS.subsetWLG, by=c("ID"))
 ESS.ready <- subset(ESS.ready, select = - c(cntry.y))
 
 #Mean of SWD per country per W/L
-cntrystfm <- aggregate(x = mean(stfdem), by = list(ESS.ready$cntry.x, ESS.ready$), FUN = mean, na.rm = T)
-
+                    
 #Took me almost two hours to come up with this so please appreciate. However, CZ is missing (recoding for WLG did not work). I suggest we leave it out and ask the prof what happened with this puppy.
 
 library(tidyr)
@@ -41,28 +41,36 @@ WLG.list <- winner$mean_satisfaction-loser$mean_satisfaction
 WLG.df.pre <- data.frame(matrix(unlist(WLG.list), nrow=length(WLG.list), byrow=TRUE))
 colnames(WLG.df.pre) <- "WLG"
 
-WLF.df <- cbind(WLG.df.pre$WLG,winner$cntry.x)
-WLF.df <- as.data.frame(WLF.df)
-WLF.df %>% rename(WLG = V1,cntry = V2)
-  
+WLG.df <- cbind(WLG.df.pre$WLG,winner$cntry.x)
+WLG.df <- as.data.frame(WLG.df)
+names(WLG.df)[names(WLG.df) == 'V1'] <- 'wlg'
+names(WLG.df)[names(WLG.df) == 'V2'] <- 'country'
+
 #Visualization
 
 library(ggplot2)
 library(dplyr)
 library(forcats)
 
-data <- data.frame(wlg = rnorm(100, 3, 1))
-data$country <- sample(rep(c("Italy", "Swiss", "Germany", "France", "Austria"),20))
+# rename column names Group.1 to country to merge the datasets acordingly
+colnames(cntrystfm)[1] <- "country"
 
-data %>%
-  mutate(country = fct_reorder(country, wlg, .fun='mean' )) %>%
-  ggplot( aes(x=reorder(country, wlg), y=wlg, fill="grey")) + 
-  geom_boxplot(width=0, outlier.shape = NA) +
-  stat_summary(fun=mean, geom="point", shape=20, size=3, color="darkolivegreen3", fill="darkolivegreen3") +
-  xlab(NULL) +
-  ylab(NULL) +
-  theme(legend.position="none") +
-  ylim(2,8) +
+# merge datasets joining by country
+new_dataset <- left_join(cntrystfm, WLG.df)
+
+# drop ID column since it is not needed
+new_dataset$ID <- NULL
+
+# sort dataset ascending
+# new_dataset <- new_dataset %>%
+#   arrange(by=x)
+
+ggplot(new_dataset, aes(x = reorder(country, x), y = x)) +
+  geom_errorbar(aes(ymin = x - (.5 * wlg), 
+                    ymax = x + (.5 * wlg)),
+                width = 0,
+                col= "grey")+
+  geom_point(colour = "darkolivegreen3")+
   theme(axis.text.x = element_text(angle = 90),
         plot.background = element_rect(fill = 'white', colour = 'white'),
         panel.background = element_rect(fill = 'white', colour = 'white'),
@@ -71,8 +79,9 @@ data %>%
         panel.grid.minor = element_blank(),
         axis.line = element_line(colour = "darkgrey"),
         axis.ticks = element_line(colour = "darkgrey")
-        )+
+  )+
   geom_hline(yintercept=c(4,7), alpha=0.6, col="black")+
   geom_hline(yintercept=c(6), alpha=0.6, col="darkgrey")+
-  geom_hline(yintercept=c(3,5,8), alpha=0.3, col="darkgrey")
-
+  geom_hline(yintercept=c(3,5,8), alpha=0.3, col="darkgrey")+
+  xlab(NULL) +
+  ylab(NULL) 
