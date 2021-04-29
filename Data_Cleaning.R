@@ -49,7 +49,7 @@ trstinst [trstinst > 10 ] <- NA
 
 #Adding trstinst to the ESS_dataset
 ESS_subset$trstinst <- trstinst$trstinst_means
-ESS_subset <- subset(ESS_subset, select = -c(trstprl, trstlgl , trstplc, trstplt, trstprt, trstep, trstun))
+ESS_subset <- subset(ESS_subset, select = -c(trstlgl , trstplc, trstplt, trstprt, trstep, trstun))
                                                
 #WLG
 
